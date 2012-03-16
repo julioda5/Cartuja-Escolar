@@ -1,18 +1,25 @@
 #comentario
 import mysql.connector as mysql
 from Tkinter import *
+import ttk
+import getpass
 
+data = {"host": "localhost", "user":"root","database":"escuela"}
 
+def init():
+	passwd = getpass.getpass('Password --> ') 
+	data['password'] = passwd
 
-def ventana():
+def ventanaPrincipal():
 	root = Tk()
+	root.title('Base de Datos Escolares')
 	root.mainloop()
 
 if __name__ == '__main__':
-	ventana()
+	init()
+	ventanaPrincipal()
 	
 	try:
-		data = {"host": "localhost", "user":"root","password":"!Snowbasin1)","database":"escuela"}
 		db = mysql.connect(**data)
 		cr = db.cursor()
 		query = 'select * from Alumnos'
