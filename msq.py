@@ -1,14 +1,24 @@
-#comentario
+# -*- coding: utf-8 -*-
 import mysql.connector as mysql
 from Tkinter import *
 import ttk
-import getpass
 
 data = {"host": "localhost", "user":"root","database":"escuela"}
 
 def init():
-	passwd = getpass.getpass('Password --> ') 
-	data['password'] = passwd
+	pswroot = Tk()
+	pswroot.title('Autenticación')
+	lpass = Label(pswroot,text= u'Contraseña')
+	lpass.pack()
+	entry = Entry(pswroot,width  = 25, show ="*")
+	def getpsw(e):
+		psw = entry.get()
+		data['password'] = psw
+		pswroot.destroy()
+	entry.bind("<Return>",getpsw)
+	entry.pack()
+	pswroot.mainloop()
+	return 1
 
 def ventanaPrincipal():
 	root = Tk()
@@ -16,7 +26,7 @@ def ventanaPrincipal():
 	root.mainloop()
 
 if __name__ == '__main__':
-	init()
+	if(not init()): exit() #si no inicializa bien, salir
 	ventanaPrincipal()
 	
 	try:
