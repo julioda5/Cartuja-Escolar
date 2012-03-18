@@ -9,6 +9,7 @@ tables = []
 def init():
 	root = Tk()
 	root.title('Autenticación')
+	root.resizable(0,0)
 	content = ttk.Frame(root)
 	namelbl = ttk.Label(content, text="Contraseña")
 	entry = ttk.Entry(content,show="*",width=15)
@@ -31,15 +32,14 @@ def init():
 def ventanaPrincipal():
 	root = Tk()
 	root.title('Base de Datos Escolares')
-	
+	root.resizable(0,0)
 	cntVP = ttk.Frame(root)
 	altasLb = ttk.Label(cntVP, text="Opciones:")
 	def alto():
-		pass
-		#darAltas()
-	btnAlt = ttk.Button(cntVP, text = 'Altas',command = alto(),width = 10)
-	btnBjs = ttk.Button(cntVP, text = 'Bajas',command = alto(),width = 10)
-	btnRep = ttk.Button(cntVP, text = 'Reportes',command = alto(),width = 10)
+		darAltas(root)
+	btnAlt = ttk.Button(cntVP, text = 'Altas',command = alto,width = 10)
+	btnBjs = ttk.Button(cntVP, text = 'Bajas',command = alto,width = 10)
+	btnRep = ttk.Button(cntVP, text = 'Reportes',command = alto,width = 10)
 	
 	cntVP.grid(	column=0,	row=0)
 	altasLb.grid(	column=0,	row=1, columnspan=2,padx=10)
@@ -64,16 +64,27 @@ def getTables():
 	except ValueError:
 		print 'err'
 
-def darAltas():
+def darAltas(papa):
+	tablaA = ''
 	print 'dar alta'
-	vent = Toplevel()
+	vent = Toplevel(papa)
 	vent.title('Altas')
-	tbls = ttk.Combobox(vent)
+	vent.resizable(0,0)
+	cntAl	= ttk.Frame(vent)
+	cntAl.grid(column=0, row=0)
+	tbls	= ttk.Combobox(cntAl,width = 15)
+	tblsLb	= ttk.Label(cntAl, text="Tablas:")
 	tbls['values'] = tables
-	tbls.pack()
+	tblsLb.grid(column=0, row=0,padx=5)
+	tbls.grid(column=1, row=0,padx=5)
+	def obtener(e):
+		global tablaA
+		tablaA = tbls.get()
+	tbls.bind('<<ComboboxSelected>>', obtener)
 
 if __name__ == '__main__':
-	if(not init()): exit() #si no inicializa bien, salir
+	#if(not init()): exit() #si no inicializa bien, salir
+	data['password'] = '!Snowbasin1)'
 	getTables()
 	ventanaPrincipal()
 	#print tables
