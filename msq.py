@@ -73,8 +73,10 @@ def getTables():
 		print 'err'
 
 def consultar(papa):
+	print 'consulta'
 	#Definición de variables
 	infoTabla = None
+	isFltr = IntVar()
 	#Propiedades de Ventana
 	vent = Toplevel(papa)
 	vent.title('Consultar')
@@ -83,17 +85,19 @@ def consultar(papa):
 	cntAl	= ttk.Frame(vent)
 	tbls	= ttk.Combobox(cntAl,width = 15)
 	tblsLb	= ttk.Label(cntAl, text="Tablas:")
-	filtro = ttk.Checkbutton(cntAl,onvalue = True, offvalue= False, text = 'Filtrar',variable = False)
-	#tbls['values'] = tables
-	#filtro['variable'] = True
-	print filtro['variable']
+	def mostrarFlts():
+		print 'a'
+	filtro = ttk.Checkbutton(cntAl, text = 'Filtrar',variable = isFltr,command = mostrarFlts)
+	tbls['values'] = tables
+	
+	def cons():
+		print isFltr.get()
+	consBtn = ttk.Button(cntAl,text='Filtar',command = cons)
 	
 	def obtener(e):
 		global infoTabla
 		infoTabla = getTblInfo(tbls.get())
-		if(not infoTabla): print 'Error de conexión'
-		#Mostrar info
-		#print infoTabla
+	
 		
 	tbls.bind('<<ComboboxSelected>>', obtener)
 	
@@ -101,6 +105,7 @@ def consultar(papa):
 	tblsLb.grid( column=0, row=0,padx=5)
 	tbls.grid(   column=1, row=0,padx=5)
 	filtro.grid( column=2, row=0,padx=5)
+	consBtn.grid(column=1, row=1,padx=5)
 	
 def getTblInfo(tbl):
 	try:
